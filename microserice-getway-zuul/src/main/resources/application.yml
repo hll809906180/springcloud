@@ -1,0 +1,85 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: microservice-getway-zuul
+eureka:
+  client:
+    service-url:
+        defaultZone: http://user1:password123@peer1:8000/eureka/,http://user2:password123@peer2:8001/eureka/
+#开启所有暴露端点
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+#配置路由
+zuul:
+  routes:
+    microservice-provider-user: /user/**
+  retryable: true
+#  ignored-services:   忽略自定的服务 “*” 代表所有
+
+logging:
+  level:
+    com.netflix: DEBUG
+ribbon:
+  ReadTimeout: 2000
+  ConnectTimeout: 1000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+# 同时制定微服务的serviceId和对应的路径
+#zuul:
+#    routes:
+#       user-route:             #该配置方式中，user-route只是给路有一个名称，可以任意起名。
+#           service-id: users
+#            path: /users/**      #service-id对应的路径
+
+#同时指定path和URL
+#zuul:
+#    routes:
+#        user-route:         #该配置方式中，user-route只是给路有一个名称，可以任意起名。
+#            url: http://localhost:8000/  #指定的url
+#            path: /user/*                #url对应的路径
+# 这样就可以将/users/**映射到http://localhost:8000/#.
+# 同时指定 path 和 url 破坏了zuul 的 hystrix 、ribbon 特性
+
+#同时指定path和URL，并且不破坏Zuul的Hystrix、Ribbon特性
+#zuul:
+#    routes:
+#        user-route:
+#            path: /users/**
+#            service-id: users
+#ribbon:
+#    eureka:
+#        enable: false     #为Ribbon禁用Eureka
+#users:
+#    ribbon:
+#        listOfServers: localhost:8000,localhost:8001
+
+#路由前缀
+
+#示例1
+#zuul:
+#  prefix: /api
+#  strip-prefix: false
+#  routes:
+#      users: /users/**
+
+#示例2
+#zuul:
+#    routes:
+#        users:
+#            path:
+#            strip-prefix: false
+
+#这样，访问Zuul的/api/users/1路径，
+#请求将会被转发到microservice-provider-user的/api/1
+
+#忽略某些路径
+#zuul:
+#  ignored-patterns: /**/admin/**  #忽略所有包含/admin/的路径
+#  routes:
+#      users: users/**
+#这样就可以将users微服务映射到/user/**路径，但会忽略微服务中所包含的/admin/的路径。

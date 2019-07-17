@@ -1,0 +1,9 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: microservice-consumer-movie-feign
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user1:password123@peer1:8000/eureka/,http://user2:password123@peer2:8001/eureka/

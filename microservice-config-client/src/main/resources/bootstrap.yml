@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      name: neo-config
+      profile: dev
+      label: master
+      discovery:
+        enabled: true                                #开启Config服务发现支持
+        service-id: microservice-config-server       #指定server端的name

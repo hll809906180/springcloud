@@ -1,0 +1,21 @@
+server:
+  port: 8050
+eureka:
+  client:
+    service-url:
+        defaultZone: http://user1:password123@peer1:8000/eureka/,http://user2:password123@peer2:8001/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: microservice-file-upload
+#  http:
+#    multipart:
+#      max-file-size: 2000MB
+#      max-request-size: 2500MB
+
+# 上传大文件得将超时时间设置长一些，否则会报超时异常。以下几行超时设置来自http://cloud.spring.io/spring-cloud-static/Camden.SR3/#_uploading_files_through_zuul
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000

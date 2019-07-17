@@ -1,0 +1,27 @@
+server:
+  port: 2002
+spring:
+  application:
+    name: microservice-hystrix-turbine
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user1:password123@peer1:8000/eureka/,http://user2:password123@peer2:8001/eureka/
+  instance:
+    prefer-ip-address: true
+#turbine:
+#  app-config: microservice-consumer-movie-Hystrix,microservice-consumer-movie-feign-hystrix
+#  cluster-name-expression: "default"
+#  combine-host-port: true
+#turbine聚合
+# 指定聚合哪些集群，多个使用","分割，默认为default。可使用http://.../turbine.stream?cluster={clusterConfig之一}访问
+turbine:
+  aggregator:
+    cluster-config: default
+  cluster-name-expression: new String("default")
+  app-config:  microservice-consumer-movie-Hystrix,microservice-consumer-movie-feign-hystrix
+  instanceUrlSuffix: hystrix.stream
+  combine-host-port: true
+
+
+
