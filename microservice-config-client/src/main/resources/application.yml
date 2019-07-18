@@ -1,21 +1,18 @@
 server:
   port: 7100
 spring:
-  cloud:
-    bus:
-      trace:
-        enabled: true
-  rabbitmq:
-    host: 192.168.9.89
-    port: 5672
-    username: admin
-    password: 123456
+#  cloud:
+#    bus:
+#      trace:
+#        enabled: true
+#  rabbitmq:
+#    host: 192.168.9.89
+#    port: 5672
+#    username: admin
+#    password: 123456
   application:
     name:  microservice-config-client
-eureka:
-  client:
-    service-url:
-      defaultZone: http://user1:password123@peer1:8000/eureka/,http://user2:password123@peer2:8001/eureka/
+
 management:
   security:
     enabled: false
